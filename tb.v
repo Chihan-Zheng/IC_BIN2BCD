@@ -9,11 +9,20 @@ wire bcd_vid;
 wire [16:0] bcd;
 
 initial begin
+    $dumpfile("wave.vcd");
+    $dumpvars(0, "tb.v");
+end
+
+initial begin
     clk = 0;
     forever#(T/2)begin
         clk = ~clk;
     end
 end
+
+// always #(T/2)begin
+//     clk = ~clk;
+// end
 
 initial begin
     #1;
@@ -42,15 +51,16 @@ initial begin
     
     @(posedge clk);
     bin_vid = 0;
+    // #200 $finish;
 end
 
 bin2bcd u_bin2bcd(
     .clk     ( clk     ),
     .rstn    ( rstn    ),
     .bin     ( bin     ),
-    .bin_vid ( bin_vid ),
+    .bin_vld ( bin_vid ),
     .bcd     ( bcd     ),
-    .bcd_vid  ( bcd_vid  )
+    .bcd_vld  ( bcd_vid  )
 );
 
 
